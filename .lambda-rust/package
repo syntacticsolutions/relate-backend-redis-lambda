@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+echo "packaging binaries"
+# zip -j "$1.zip" /usr/lib64/mysql/libmysqlclient.so.18
+zip -j "$1.zip" /usr/lib64/libssl.so.10
+zip -j "$1.zip" /usr/lib64/libcrypto.so.10
+
+
+zip -j "$1.zip" ../../../src/certs/ca.crt
+zip -j "$1.zip" ../../../src/certs/redis-client.crt
+zip -j "$1.zip" ../../../src/certs/redis-client.key

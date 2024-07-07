@@ -1,0 +1,49 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: User Search Rocket Lambda
+
+Globals:
+  Api:
+    BinaryMediaTypes:
+      - "*/*"
+
+Resources:
+  UserSearchRocketFunctionRole:
+    Type: AWS::IAM::Role
+    Properties: 
+      AssumeRolePolicyDocument: 
+        Version: "2012-10-17"
+        Statement: 
+          - Effect: "Allow"
+            Principal: 
+              Service: 
+                - "lambda.amazonaws.com"
+            Action: 
+              - "sts:AssumeRole"
+      ManagedPolicyArns: 
+        - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+
+Resources:
+  UserSearchRocketFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: ./target/lambda/release/relate-user-search-lambda.zip
+      Handler: DUMMY
+      Runtime: provided.al2023
+      MemorySize: 128
+      Events:
+        Web:
+          Type: Api
+          Properties:
+            Path: /{proxy+}
+            Method: ANY
+        WebRoot:
+          Type: Api
+          Properties:
+            Path: /
+            Method: ANY
+
+Outputs:
+  ApiUrl:
+    Description: "API Gateway endpoint URL"
+    Value: !Sub "https://${ServerlessRestApi}.execute-api.${AWS::Region}.amazonaws.com/Prod/"

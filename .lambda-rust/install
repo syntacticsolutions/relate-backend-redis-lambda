@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+echo "installing dependencies"
+yum install -y openssl-devel
+# echo $(ls /usr/lib64)
+export LIBRARY_PATH=/usr/lib64/mysql:/usr/lib64
+# export LD_LIBRARY_PATH=/usr/lib64/mysql:/usr/lib64
+export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig
+# ln -s /usr/lib64/mysql/libmysqlclient.so.18 /usr/lib/libmysqlclient.so
+ln -s /usr/lib64/libssl.so.10 /usr/lib/libssl.so.10

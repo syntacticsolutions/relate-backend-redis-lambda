@@ -1,0 +1,30 @@
+[package]
+name = "relate-user-search-lambda"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+redis = { version = "0.24.0", features = ["tls", "aio", "tokio-comp", "tokio-native-tls-comp"] }
+rocket = {version = "0.5.0-rc.2", features = ["json"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+rocket_cors = "0.6.0"
+lambda_http = "0.11.1"
+tokio = { version = "1", features = ["full"] }
+tokio-tls = { version = "0.3.0-alpha.6" }
+native-tls = "0.2.8"
+dotenv = "0.15.0"
+tokio-native-tls = "0.3"
+url = "2.2"
+log = "0.4"
+tokio-rustls = { version = "0.23.0", features = ["dangerous_configuration"] }
+rustls = { version = "0.20.0", features = ["dangerous_configuration"] }
+webpki-roots = "0.22.0"
+rustls-pemfile = "0.2.1"
+env_logger = "0.9"
+pem = "1.0.2" # Add this line
+regex = "1.10.5"
+
+[[bin]]
+name = "server"
+path = "src/server.rs"
