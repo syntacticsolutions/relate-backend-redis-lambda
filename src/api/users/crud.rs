@@ -73,3 +73,30 @@ pub async fn find_users_by_search(
 
     Ok(Json(json!(users)))
 }
+
+pub async fn get_user_by_id(
+    user_id: &str,
+    config: Arc<RedisConfig>,
+) -> Result<JSONValue, Status> {
+    let mut conn = get_secure_connection(config)
+        .await
+        .map_err(|_| Status::InternalServerError)?;
+
+    // Directly fetch the user JSON by ID
+    let result: Option<String> = redis::cmd("GET")
+        .arg(format!("user:{}", user_id))
+        .query_async(&mut conn)
+        .await
+        .map_err(|_| Status::InternalServerError)?;
+
+    // If user is found, return it as JSON
+    match result {
+        Some(json_str) => {
+            match serde_json::from_str::<JSONValue>(&json_str) {
+                Ok(json_value) => Ok(json_value),
+                Err(_) => Err(Status::InternalServerError), // Invalid JSON format in Redis
+            }
+        }
+        None => Err(Status::NotFound), // User not found
+    }
+}
